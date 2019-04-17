@@ -1,0 +1,42 @@
+<div class="centered">
+  <h2 class="title is-4">Track Your Complaint from ComplaintID:</h2>
+
+<form [formGroup]="form">
+  <div class="field">
+    <p class="control has-icons-left has-icons-right">
+      <input class="input" 
+      formControlName="complaintID"
+      [class.is-danger]="complaintID.touched && complaintID.invalid" 
+      [class.is-success]="complaintID.valid"
+      type="complaintID" placeholder="Complaint ID">
+      <span class="icon is-small is-left" 
+      [class.has-text-danger]="complaintID.touched && complaintID.invalid"
+      [class.has-text-success]="complaintID.valid">
+        <i class="fa fa-id-card"></i>
+      </span>
+      <span *ngIf="complaintID.touched && complaintID.invalid" class="icon is-small is-right has-text-danger">
+        <i class="fa fa-exclamation-triangle"></i>
+      </span>
+      <span *ngIf="complaintID.valid" class="icon is-small is-right has-text-success">
+        <i class="fa fa-check"></i>
+      </span>
+    </p>
+      <div *ngIf="complaintID.touched && complaintID.invalid">
+        <p *ngIf="complaintID.errors.required" class="help is-danger">ComplaintID is required</p>
+        <p *ngIf="complaintID.errors.notARegID" class="help is-danger">No such complaint exists</p>
+      </div>
+      <progress *ngIf="complaintID.pending" class="progress is-one-quarter is-primary" max="100">15%</progress>
+  </div>
+
+  
+  <div class="field">
+    <p class="control">
+      <button class="button is-success" [disabled]="!form.valid" type="submit" (click)="trackComplaint()">
+        Track Complaint
+      </button>
+    </p>
+  </div>
+</form> 
+
+
+</div>

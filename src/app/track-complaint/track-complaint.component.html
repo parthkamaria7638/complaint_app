@@ -1,0 +1,116 @@
+<app-spinner *ngIf="showSpinner"></app-spinner>
+<div *ngIf="!showSpinner" class="columns">
+        <div class="column">
+            <div class="first-col">
+                <h1 class="title is-3">
+                    Complaint Details:
+                </h1>
+                <div class="comphead">
+                    <table class="table is-hoverable is-bordered">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Complaint Type:</strong>
+                                </td>
+                                <td>
+                                    {{ complaint.Type }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Complaint Location:</strong>
+                                </td>
+                                <td>
+                                    {{ complaint.Location }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong> Complaint Body:</strong>
+                                </td>
+                                <td>
+                                    {{ complaint.Body }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Issued By:-</strong>
+                                </td>
+                                <td>
+                                    {{ complaint.IssuerName }}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Status:-</strong>
+                                </td>
+                                <td>
+                                    {{ complaint.status }}
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h1 class="title is-3">
+                    Employee Details:
+                </h1>
+                <div class="contact-card">
+                    <div class="card">
+                        <div class="card-content" style="margin-left: 55px;">
+                            <p class="title">
+                                {{ employee.name }}
+                            </p>
+                            <p class="subtitle">
+                                <strong>Mail</strong> :- {{ employee.email }}
+                                <br />
+                                <strong>Phone No.</strong> :- {{ employee.phone }}
+                            </p>
+
+                        </div>
+                        <footer class="card-footer">
+                            <a href="mailto:{{employee.email}}" class="card-footer-item">Mail</a>
+                            <a href="tel:{{employee.phone}}" class="card-footer-item">Contact</a>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="first-col">
+                <h1 class="title is-3">
+                    Complaint Status:
+                </h1>
+            <ul id="progress">
+                <li>
+                    <div class="node" 
+                    [class.green]="complaint.status == 'assigned' || complaint.status == 'inProgress' || complaint.status == 'completed'"
+                    ></div>
+                    <p class="subtitle is-6">ASSIGNED</p>
+                </li>
+                <li>
+                    <div class="divider" [class.green]="complaint.status == 'assigned' || complaint.status == 'inProgress' || complaint.status == 'completed'"></div>
+                </li>
+                <li>
+                    <div class="node" 
+                    [class.green]="complaint.status == 'inProgress' || complaint.status == 'completed'"
+                    ></div>
+                    <p class="subtitle is-6">ONGOING</p>
+                </li>
+                <li>
+                    <div class="divider" 
+                    [class.green]="complaint.status == 'inProgress' || complaint.status == 'completed'"></div>
+                </li>
+                <li>
+                    <div class="node" 
+                    [class.green]="complaint.status == 'completed'"
+                    ></div>
+                    <p class="subtitle is-6">RESOLVED</p>
+                </li>
+            </ul>
+        </div>
+
+        </div>
+    </div>
+    

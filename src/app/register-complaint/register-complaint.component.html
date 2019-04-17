@@ -1,0 +1,115 @@
+<div class="centered">
+  <h2 class="title is-4">Register your complaint as a Guest User</h2>
+<form [formGroup]="form">
+  <div class="field">
+    <p class="control has-icons-left has-icons-right">
+      <input class="input" 
+      formControlName="email"
+      [class.is-danger]="email.touched && email.invalid" 
+      [class.is-success]="email.valid"
+      type="email" placeholder="Email">
+      <span class="icon is-small is-left" 
+      [class.has-text-danger]="email.touched && email.invalid"
+      [class.has-text-success]="email.valid">
+        <i class="fa fa-envelope"></i>
+      </span>
+      <span *ngIf="email.touched && email.invalid" class="icon is-small is-right has-text-danger">
+        <i class="fa fa-exclamation-triangle"></i>
+      </span>
+      <span *ngIf="email.valid" class="icon is-small is-right has-text-success">
+        <i class="fa fa-check"></i>
+      </span>
+    </p>
+      <div *ngIf="email.touched && email.invalid">
+        <p *ngIf="email.errors.required" class="help is-danger">Email is required</p>
+        <p *ngIf="email.errors.email && email.dirty" class="help is-danger">Email is invalid</p>
+      </div>
+  </div>
+
+  <div class="field">
+    <p class="control has-icons-left has-icons-right">
+      <input class="input" 
+      formControlName="displayName"
+      [class.is-danger]="displayName.touched && displayName.invalid" 
+      [class.is-success]="displayName.valid"
+      type="displayName" placeholder="Display Name">
+      <span class="icon is-small is-left" 
+      [class.has-text-danger]="displayName.touched && displayName.invalid"
+      [class.has-text-success]="displayName.valid">
+        <i class="fa fa-user"></i>
+      </span>
+      <span *ngIf="displayName.touched && displayName.invalid" class="icon is-small is-right has-text-danger">
+        <i class="fa fa-exclamation-triangle"></i>
+      </span>
+      <span *ngIf="displayName.valid" class="icon is-small is-right has-text-success">
+        <i class="fa fa-check"></i>
+      </span>
+    </p>
+      <div *ngIf="displayName.touched && displayName.invalid">
+        <p *ngIf="displayName.errors.required" class="help is-danger">Name is required</p>
+        <p *ngIf="displayName.errors?.minlength" class="help is-danger">Name is too short</p>
+      </div>
+  </div>
+
+  <div class="field">
+    <p class="control has-icons-left has-icons-right">
+      <input class="input" 
+      formControlName="location"
+      [class.is-danger]="location.touched && location.invalid" 
+      [class.is-success]="location.valid"
+      type="location" placeholder="Location">
+      <span class="icon is-small is-left" 
+      [class.has-text-danger]="location.touched && location.invalid"
+      [class.has-text-success]="location.valid">
+        <i class="fa fa-map-marker"></i>
+      </span>
+      <span *ngIf="location.touched && location.invalid" class="icon is-small is-right has-text-danger">
+        <i class="fa fa-exclamation-triangle"></i>
+      </span>
+      <span *ngIf="location.valid" class="icon is-small is-right has-text-success">
+        <i class="fa fa-check"></i>
+      </span>
+    </p>
+      <div *ngIf="location.touched && location.invalid">
+        <p *ngIf="location.errors.required" class="help is-danger">Location is required</p>
+        <p *ngIf="location.errors?.minlength" class="help is-danger">Location is too short</p>
+      </div>
+  </div>
+
+  <div class="select is-rounded">
+    <select formControlName="type">
+      <option>Sanitation</option>
+      <option>Road</option>
+      <option>RTO</option>
+      <option>Water</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <p class="control has-icons-left has-icons-right">
+    
+      <textarea class="textarea"
+      [class.is-danger]="textarea.touched && textarea.invalid" 
+      [class.is-success]="textarea.valid"
+      formControlName="textarea" placeholder="Body of the complaint">
+      </textarea>
+      
+      <span *ngIf="textarea.touched && textarea.invalid" class="icon is-small is-right has-text-danger">
+        <i class="fa fa-exclamation-triangle"></i>
+      </span>
+    </p>
+    <div *ngIf="textarea.touched && textarea.invalid">
+      <p *ngIf="textarea.errors.required" class="help is-danger">Complaint Body is required</p>
+      <p *ngIf="textarea.errors?.minlength" class="help is-danger">Complaint Body is too short</p>
+    </div>
+  </div>
+  <div class="field">
+    <p class="control">
+      <button class="button is-success" [class.is-loading]="showSpinner" [disabled]="!form.valid" type="submit" (click)="postComplaint()">
+        Post complaint
+      </button>
+    </p>
+  </div>
+</form> 
+
+</div>

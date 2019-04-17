@@ -1,0 +1,161 @@
+<!-- Admin Dashboard-->
+<app-spinner *ngIf="showSpinner"></app-spinner>
+  <div class="has-background-light">
+  <hr/>
+  <b><h2 class="title is-4 has-text-centered">Welcome to your dashboard</h2></b>
+  <h2 class="subtitle is-4 has-text-centered">{{ user?.name }}</h2>
+  <hr/>
+  </div>
+<div *ngIf="user?.role == 'Admin'">
+
+  <div class="columns">
+    <div class="column">
+      <div style="display: block">
+        <canvas baseChart height="200"
+                [data]="doughnutChartData"
+                [labels]="doughnutChartLabels"
+                [chartType]="doughnutChartType"
+                [options]="doughnutChartOptions"
+                [colors]="doughnutChartColors"></canvas>
+      </div>
+    </div>
+    <div class="column">
+      <div style="display: block">
+        <canvas baseChart height="200"
+          [data]="lineAreaChartData"
+          [labels]="lineAreaChartLabels"
+          [chartType]="lineAreaChartType"
+          [colors]="lineAreaChartColors"
+          [options]="lineChartOptions">
+        </canvas>
+     </div>
+    </div>
+    <div class="column">
+       <div style="display: block">
+        <canvas baseChart height="200"
+                [data]="doughnutChartDataPlatform"
+                [labels]="doughnutChartLabelsPlatform"
+                [chartType]="doughnutChartTypePlatform"
+                [options]="doughnutChartOptionsPlatform"
+                [colors]="doughnutChartColorsPlatform"></canvas>
+      </div>
+    </div> 
+  </div>  
+<hr/>
+<nav class="level">
+<div class="level-item has-text-centered">
+    <div>
+      <p class="heading">Assigned Complaints</p>
+      <p class="title">{{ assignedComp }}</p>
+    </div>
+  </div>
+  <div class="level-item has-text-centered">
+    <div>
+      <p class="heading">Ongoing Complaints</p>
+      <p class="title">{{ ongoingComp }}</p>
+    </div>
+  </div>
+  <div class="level-item has-text-centered">
+    <div>
+      <p class="heading">Completed Complaints</p>
+      <p class="title">{{ completedComp }}</p>
+    </div>
+  </div>
+  
+  <div class="level-item has-text-centered">
+    <div>
+      <p class="heading">Total Complaints</p>
+      <p class="title">{{ totalComplaints }}</p>
+    </div>
+  </div>
+</nav>
+<hr/>
+</div>
+
+
+<!-- Employee Dashboard-->
+<div *ngIf="user?.role == 'employee'">
+<div class="container">
+  <h2 class="title is-5">The following are the complaints assigned to you:</h2>
+
+  <div class="container" @fadeIn @fadeOut *ngFor="let work of userComplaints; let i = index">
+    <div class="box">
+      <article class="media">
+        <div class="media-left">
+          <figure class="image is-64x64">
+            <img [src]="work.complaint.logoURL" alt="Image">
+          </figure>
+        </div>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong *ngIf="work.complaint.platform == 'Twitter' || work.complaint.platform == 'Guest'">{{ work.complaint.IssuerName }}</strong>  
+              <strong *ngIf="work.complaint.platform == 'Reddit'">{{ work.complaint.IssuerID }}</strong>
+              <strong *ngIf="work.complaint.platform == 'Facebook'">{{ work.complaint.Name }}</strong>
+              <small *ngIf="work.complaint.platform == 'Twitter' || work.complaint.platform == 'Reddit'">@{{ work.complaint.IssuerUsername }}</small> 
+              <span 
+              class="tag"
+              [class.is-link]="work.complaint.cssClass == 'is-link'"
+              [class.is-danger]="work.complaint.cssClass == 'is-danger'"
+              [class.is-info]="work.complaint.cssClass == 'is-info'"
+              [class.is-grey-dark]="work.complaint.cssClass == 'is-grey'"
+              [class.has-text-black]="work.complaint.cssClass == 'is-grey'"
+              >{{ work.complaint.platform }}</span> 
+              <small>{{ work.complaint.Timestamp | TimeRemaining : currTime }}</small> 
+              <br>
+              <small><strong>Type:</strong>{{ work.complaint.Type }} </small> <br>
+              <small> <strong>Location:</strong> {{ work.complaint.Location }} </small> <br>
+              {{ work.complaint.Body }}
+            </p>
+          </div>
+          <div class="select is-rounded">
+              <select [(ngModel)]="compType" name="compType">
+                <option *ngIf="work.complaint.Type.toLowerCase().replace('Dept', '') != 'sanitation'">Sanitation</option>
+                <option *ngIf="work.complaint.Type.toLowerCase().replace('Dept', '') != 'road'">Road</option>
+                <option *ngIf="work.complaint.Type.toLowerCase().replace('Dept', '') != 'water'">Water</option>
+                <option *ngIf="work.complaint.Type.toLowerCase().replace('Dept', '') != 'rto'">RTO</option>
+              </select>
+          </div>
+          <button class="button has-text-white"
+          [disabled]="work.status != 'assigned'"
+          [class.is-link]="work.complaint.cssClass == 'is-link'"
+          [class.is-danger]="work.complaint.cssClass == 'is-danger'"
+          [class.is-info]="work.complaint.cssClass == 'is-info'"
+          [class.is-grey-dark]="work.complaint.cssClass == 'is-grey'"
+          [class.has-text-black]="work.complaint.cssClass == 'is-grey'"
+          (click)="changeComplaintType(work, i)"
+          >Change Complaint Type</button>
+          <nav class="level is-mobile">
+            <div class="level-left">
+              Status: {{ work.status }}
+            </div>
+          </nav>
+          <div class="select is-rounded">
+                <select [(ngModel)]="select" name="select">
+                  <option
+                  [disabled]="work.status == 'inProgress'"
+                  >In Progress</option>
+                  <option 
+                  [disabled]="work.status == 'assigned'">
+                  Completed</option>
+                </select>
+          </div>
+          <button class="button has-text-white"
+          [class.is-link]="work.complaint.cssClass == 'is-link'"
+          [class.is-danger]="work.complaint.cssClass == 'is-danger'"
+          [class.is-info]="work.complaint.cssClass == 'is-info'"
+          [class.is-grey-dark]="work.complaint.cssClass == 'is-grey'"
+          [class.has-text-black]="work.complaint.cssClass == 'is-grey'"
+          (click)="changeStatus(work, i)"
+          >Change Status</button>
+
+        </div>
+      </article>
+    </div>
+    </div>
+
+
+</div>
+</div>
+
+

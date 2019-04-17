@@ -1,0 +1,11 @@
+.online {
+    color: green;
+}
+
+.away {
+    color: rgb(214, 214, 9);
+}
+
+.offline {
+    color: red;
+}
